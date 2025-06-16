@@ -6,6 +6,9 @@ namespace elem {
 
 Spring1D::Spring1D() : k{1.0} {
     ke << k, -k, -k, k;
+
+    displacements = Eigen::Vector2d::Zero();
+    forces = Eigen::Vector2d::Zero();
 }
 
 
@@ -14,6 +17,8 @@ Spring1D::Spring1D(double iK) : k{iK} {
 
     ke << k, -k, -k, k;
 
+    displacements = Eigen::Vector2d::Zero();
+    forces = Eigen::Vector2d::Zero();
     
 }
 

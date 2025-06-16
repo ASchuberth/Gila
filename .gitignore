@@ -39,4 +39,6 @@
 /.vscode
 
 # Documentation
-/doc 
+/docs/build
+/docs/html/
+/docs/latex/ 

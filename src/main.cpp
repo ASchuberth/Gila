@@ -1,7 +1,7 @@
 
 #include "elements/assembly.hpp"
 
-/** 
+/**
  *  Spring Constant         - k
  *  Spring Stiffness Matrix - ke
  *  Global Stiffness Matrix - K
@@ -12,6 +12,16 @@
  *  3D - Three Dimensional, i.e. (x, y, z), (x0, x1, x2)
  */
 
+ struct cat {
+       /**
+    Make this dog look super cute
+  */
+    int x;
+    /**
+    Make this cat look super cute
+  */
+    int y;
+ };
 
 int main() {
 
@@ -60,7 +70,6 @@ int main() {
     assembly.addForce(3, W);
 
     assembly.displacementConstraint(0, 0.0);
-
 
     try {
 

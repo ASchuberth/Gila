@@ -8,13 +8,14 @@
 
 namespace assy {
 
+    
     /// @brief 1D Assembly of spring elements and calculates their displacements
     /** Each spring element added gets assembled onto the previous with addElement().
      *  
      *  For Example:  
      *            Elem 1         Elem 2                    Elem n 
-     *     _u 0_/\  /\  /\_u 1_/\  /\  /\_u 2_ ..._u n-1_/\  /\  /\_u n           
-     *            \/  \/         \/  \/                    \/  \/     
+     *     _u0_/\  /\  /\_u1_/\  /\  /\_u2_ ..._un-1_/\  /\  /\_un           
+     *           \/  \/        \/  \/                  \/  \/     
      * 
      *      The 2nd displacement of the previously added element is set to be equal to
      *      the 1st displacement of the element being added.
@@ -26,7 +27,13 @@ namespace assy {
     public:
         /// @brief Default Constructor
         Assembly1D() : numUnknowns{0},
-                       globalStiffMatrixSize{0} {}
+                       globalStiffMatrixSize{0} 
+                       {
+
+                            displacements = Eigen::VectorXd::Zero(1);
+                            forces = Eigen::VectorXd::Zero(1);
+                            K = Eigen::MatrixXd::Zero(1,1);
+        }
 
         
         /**
@@ -96,6 +103,12 @@ namespace assy {
 
             displacements.resize(globalStiffMatrixSize);
             forces.resize(globalStiffMatrixSize);
+
+            // Zero resized vectors and matrices
+            displacements = Eigen::VectorXd::Zero(globalStiffMatrixSize);
+            forces = Eigen::VectorXd::Zero(globalStiffMatrixSize);
+            K = Eigen::MatrixXd::Zero(globalStiffMatrixSize, globalStiffMatrixSize);
+
 
             displacements = Eigen::VectorXd::Constant(globalStiffMatrixSize, 0.0);
             forces = Eigen::VectorXd::Constant(globalStiffMatrixSize, 0.0);

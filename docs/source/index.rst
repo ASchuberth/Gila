@@ -5,6 +5,12 @@
 
 Welcome to GilaFEA's documentation!
 ===================================
+   
+   A simple FEA project for learning.
+
+.. note::
+
+   This project is under active development.
 
 .. toctree::
    :maxdepth: 2
@@ -18,3 +24,19 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+Docs
+====
+
+
+
+
+
+.. doxygennamespace:: assy
+   :project: gila
+   
+.. doxygennamespace:: elem
+   :project: gila
+
+
