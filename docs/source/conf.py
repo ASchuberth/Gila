@@ -3,7 +3,7 @@
 import sys, os, subprocess
 
 import breathe
-#import sphinx_rtd_theme
+
 
 def configureDoxyfile(input_dir, output_dir):
     with open('Doxyfile.in', 'r') as file :
