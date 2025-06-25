@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 
 #include "spring.hpp"
+#include "spar.hpp"
 
 namespace assy {
 
