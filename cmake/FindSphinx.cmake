@@ -1,6 +1,14 @@
+if(UNIX)
+set(PYTHON_ENVIRONMENT ${CMAKE_SOURCE_DIR}/venv/bin/)
+
+message("${PYTHON_ENVIRONMENT}")
+
+endif(UNIX)
+
 #Look for an executable called sphinx-build
 find_program(SPHINX_EXECUTABLE
              NAMES sphinx-build
+             HINTS ${PYTHON_ENVIRONMENT}
              DOC "Path to sphinx-build executable")
 
 include(FindPackageHandleStandardArgs)
