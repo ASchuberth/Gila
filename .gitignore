@@ -42,3 +42,6 @@
 /docs/build
 /docs/html/
 /docs/latex/ 
+
+#python
+/env/

@@ -29,10 +29,6 @@ Indices and tables
 Docs
 ====
 
-
-
-
-
 .. doxygennamespace:: assy
    :project: gila
    
