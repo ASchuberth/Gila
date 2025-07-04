@@ -30,11 +30,10 @@ Docs
 ====
 
 
-
-
-
 .. doxygennamespace:: assy
    :project: gila
+   :members:
+   :private-members:
    
 .. doxygennamespace:: elem
    :project: gila
