@@ -1,8 +1,10 @@
 
 
 import sys, os, subprocess
+print(sys.version)
+# import breathe
 
-import breathe
+
 
 
 def configureDoxyfile(input_dir, output_dir):
@@ -42,8 +44,8 @@ if read_the_docs_build:
 #
 # import os
 # import sys
-# sys.path.insert(0, os.path.abspath('.'))
-
+# sys.path.insert(0, os.path.abspath('..\\..\\.venv\\lib\\python3.10\\site-packages\\'))
+# import breathe
 
 # -- Project information -----------------------------------------------------
 
@@ -91,6 +93,6 @@ html_static_path = ['_static']
 # breathe_projects = {"GilaFEA": "../   xml/"}
 breathe_default_project = "gila"
 
-breathe_projects_source = {
-    "auto" : ( "../../src/elements/", ["assembly.hpp"] )
-}
+# breathe_projects_source = {
+#     "auto" : ( "../../src/elements/", ["assembly.hpp"] )
+# }

@@ -44,4 +44,10 @@
 /docs/latex/ 
 
 #python
-/env/
+.venv
+
+# Shaders
+*.spv
+
+# Local Configurations
+/src/render/config.h
