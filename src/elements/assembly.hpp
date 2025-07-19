@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 
 #include "spring.hpp"
+#include "spar.hpp"
 
 namespace assy {
 
@@ -207,7 +208,7 @@ namespace assy {
         /// @brief Vector to hold each element in assembly
         std::vector<elem::Spring1D> elements;
 
-        /// @brief Global Stiffness MAtrix
+        /// @brief Global Stiffness Matrix
         Eigen::MatrixXd K;
 
         /// @brief Displacements of System
