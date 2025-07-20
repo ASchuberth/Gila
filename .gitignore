@@ -42,3 +42,12 @@
 /docs/build
 /docs/html/
 /docs/latex/ 
+
+#python
+.venv
+
+# Shaders
+*.spv
+
+# Local Configurations
+/src/render/config.h

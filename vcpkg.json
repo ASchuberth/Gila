@@ -1,6 +1,16 @@
 {
   "dependencies": [
+    "eigen3",
+    "glfw3",
     "glm",
-    "eigen3"
+    {
+      "name": "imgui",
+      "features": [
+        "glfw-binding",
+        "vulkan-binding"
+      ]
+    },
+    "stb",
+    "vulkan"
   ]
 }

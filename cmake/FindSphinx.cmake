@@ -1,9 +1,11 @@
-if(UNIX)
-set(PYTHON_ENVIRONMENT ${CMAKE_SOURCE_DIR}/venv/bin/)
+# # if(UNIX)
+# set(PYTHON_ENVIRONMENT ${CMAKE_SOURCE_DIR}/.venv/bin/)
 
-message("${PYTHON_ENVIRONMENT}")
+# message("${PYTHON_ENVIRONMENT}")
 
-endif(UNIX)
+# # endif(UNIX)
+
+# find_package(Python3)
 
 #Look for an executable called sphinx-build
 find_program(SPHINX_EXECUTABLE
