@@ -12,9 +12,7 @@ Welcome to GilaFEA's documentation!
 
    This project is under active development.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+
 
 
 
@@ -29,13 +27,14 @@ Indices and tables
 Docs
 ====
 
+.. toctree::
+   :maxdepth: 1   
 
-.. doxygennamespace:: assy
-   :project: gila
-   :members:
-   :private-members:
+   isotropicelasticconstants
+   assembly
+   elements
    
-.. doxygennamespace:: elem
-   :project: gila
+
+   
 
 

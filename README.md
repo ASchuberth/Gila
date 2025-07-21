@@ -1,4 +1,4 @@
-# Gila FEA
+# Gila FEA Version 0.1.1
 
 ## Documentation (WIP)
 
