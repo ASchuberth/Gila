@@ -1,11 +1,13 @@
-# # if(UNIX)
-# set(PYTHON_ENVIRONMENT ${CMAKE_SOURCE_DIR}/.venv/bin/)
 
-# message("${PYTHON_ENVIRONMENT}")
+if(WIN32)
+set(PYTHON_ENVIRONMENT ${CMAKE_SOURCE_DIR}/.venv/Scripts/)
+message("Python Environment: ${PYTHON_ENVIRONMENT}")
+endif()
 
-# # endif(UNIX)
-
-# find_package(Python3)
+if(UNIX)
+set(PYTHON_ENVIRONMENT ${CMAKE_SOURCE_DIR}/.venv/bin/)
+message("Python Environment: ${PYTHON_ENVIRONMENT}")
+endif()
 
 #Look for an executable called sphinx-build
 find_program(SPHINX_EXECUTABLE

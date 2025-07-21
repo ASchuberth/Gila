@@ -64,7 +64,7 @@ release = '0.1.0'
 # ones.
 extensions = [
 
-    "breathe"
+    'breathe'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -90,7 +90,7 @@ html_static_path = ['_static']
 
 
 # Breathe Configuration
-# breathe_projects = {"GilaFEA": "../   xml/"}
+
 breathe_default_project = "gila"
 
 # breathe_projects_source = {
