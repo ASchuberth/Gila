@@ -1,174 +1,92 @@
 
 #include "elements/assembly.hpp"
+#include "gila.hpp"
 #include "observer/subject.hpp"
 #include "render/render.hpp"
 
+
 VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
-void run(GILA_APP_NAMESPACE::CADRender &render) {
+void run(GILA_APP_NAMESPACE::GilaRender &render) {}
 
-  render.setBGColor(glm::vec4(0.1f, 0.1f, 0.1f, 0.1f));
-  render.setup();
-  render.initImgui();
-
-}
-
-void runImgui(Model* model) {
-
-  ImGui_ImplVulkan_NewFrame();
-  ImGui_ImplGlfw_NewFrame();
-  ImGui::NewFrame();
-
-  ImGui::Begin("Start Screen");
-
-  static int modelTypeInt;
-  ImGui::RadioButton("Sketch", &modelTypeInt, 0);
-  ImGui::SameLine();
-  ImGui::RadioButton("Part", &modelTypeInt, 1);
-
-  if (ImGui::Button("Add Points")) {
-
-    model->clearRender();
-    model->addPoint(glm::vec3{1.0f,0.0f,1.0f});
-    model->addPoint(glm::vec3{4.0f,0.0f,2.0f});
-    model->addPoint(glm::vec3{2.0f,0.0f,2.0f});
-    model->addPoint(glm::vec3{7.0f,0.0f,-4.0f});
-    model->notify();
-    
-
-  }
-
-  if (ImGui::Button("Delete Model")) {
-
-    model->clearRender();
-    model->notify();
-
-  }
-
-  ImGui::End();
-
-  ImGui::Render();
-}
+void runImgui(Model *model) {}
 
 /**
  *  Spring Constant         - k
  *  Spring Stiffness Matrix - ke
  *  Global Stiffness Matrix - K
- * 
- * 
+ *
+ *
  *  1D - One Dimensional, i.e.   (x),       (x0)
  *  2D - Two Dimensional, i.e.   (x, y),    (x0, x1)
  *  3D - Three Dimensional, i.e. (x, y, z), (x0, x1, x2)
  */
 
-
 int main() {
 
-    // Example 1
-    // elem::Spring1D s1{50.0f};
-    // elem::Spring1D s2{75.0f};
+  // Example 1
+  // elem::Spring1D s1{50.0f};
+  // elem::Spring1D s2{75.0f};
 
-    // assy::Assembly1D assembly;
+  // assy::Assembly1D assembly;
 
+  // assembly.addElement(s1);
+  // assembly.addElement(s2);
 
-    // assembly.addElement(s1);
-    // assembly.addElement(s2);
+  // assembly.assemble();
 
-    // assembly.assemble();
+  // assembly.addForce(1, 75.0);
+  // assembly.addForce(2, 75.0);
 
-    
+  // assembly.displacementConstraint(0, 0.0);
 
-    // assembly.addForce(1, 75.0);
-    // assembly.addForce(2, 75.0);
-
-    // assembly.displacementConstraint(0, 0.0);
-    
-
-    GILA_APP_NAMESPACE::CADRender render;
+  GILA_APP_NAMESPACE::Gila GilaApp;
 
   try {
-    run(render);
-  }
-  catch ( vk::SystemError & err )
-  {
+    GilaApp.run();
+  } catch (vk::SystemError &err) {
     std::cout << "vk::SystemError: " << err.what() << std::endl;
-    exit( -1 );
-  }
-  catch ( std::exception & err )
-  {
+    exit(-1);
+  } catch (std::exception &err) {
     std::cout << "std::exception: " << err.what() << std::endl;
-    exit( -1 );
-  }
-  catch ( ... )
-  {
+    exit(-1);
+  } catch (...) {
     std::cout << "unknown error\n";
-    exit( -1 );
+    exit(-1);
   }
 
-  Sketch S;
-  Model M;
+  // Example 2
 
-  S.addRender(&render);
-  M.addRender(&render);
+  const double W = 10.0;
+  const double k = 1.0;
+  elem::Spring1D s1{3.0 * k};
+  elem::Spring1D s2{2.0 * k};
+  elem::Spring1D s3{1.0 * k};
 
-  S.addPoint(glm::vec3{0.0f,1.0f,2.0f});
+  assy::Assembly1D assembly;
 
+  assembly.addElement(s1);
+  assembly.addElement(s2);
+  assembly.addElement(s3);
 
-  while (!glfwWindowShouldClose(render.mMainWindow)) {
+  assembly.assemble();
 
-    glfwPollEvents();
+  assembly.addForce(1, W);
+  assembly.addForce(2, W);
+  assembly.addForce(3, W);
 
-    runImgui(&M);
+  assembly.displacementConstraint(0, 0.0);
 
-    render.createCommandBuffers();
-    render.drawFrame();
+  try {
 
-    glfwWaitEvents();
+    assembly.solve();
+
+  } catch (const std::exception &err) {
+    std::cerr << err.what() << std::endl;
+    return -1;
   }
 
-  render.destroy();
+  assembly.print();
 
-  glfwTerminate();
-    
-
-    // Example 2
-
-    const double W = 10.0;
-    const double k = 1.0;
-    elem::Spring1D s1{3.0 * k};
-    elem::Spring1D s2{2.0 * k};
-    elem::Spring1D s3{1.0 * k};
-
-    assy::Assembly1D assembly;
-
-
-    assembly.addElement(s1);
-    assembly.addElement(s2);
-    assembly.addElement(s3);
-
-    assembly.assemble();
-
-    
-
-    assembly.addForce(1, W);
-    assembly.addForce(2, W);
-    assembly.addForce(3, W);
-
-    assembly.displacementConstraint(0, 0.0);
-
-    try {
-
-        assembly.solve();
-        
-    }
-    catch (const std::exception &err) {
-        std::cerr << err.what() << std::endl;
-        return -1;
-    }
-
-    assembly.print();
-
-    
-
-    return 0;
+  return 0;
 }

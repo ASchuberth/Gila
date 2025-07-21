@@ -45,7 +45,7 @@ struct Buffer {
 
 enum RenderFlags { render_update_sketch, render_num_flags };
 
-class CADRender : public Observer {
+class GilaRender : public Observer {
 
 private:
   std::vector<const char *> validationLayers = {

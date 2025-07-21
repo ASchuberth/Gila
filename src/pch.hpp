@@ -6,9 +6,9 @@
 #include <format>
 #include <fstream>
 #include <iostream>
-#include <ostream>
 #include <list>
 #include <map>
+#include <ostream>
 #include <set>
 #include <vector>
 
@@ -45,7 +45,6 @@
 // Eigen
 
 #include <Eigen/Dense>
-
 
 // Gila
 

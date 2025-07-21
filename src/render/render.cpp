@@ -10,7 +10,7 @@ const int MAX_FRAMES_IN_FLIGHT = 2;
 
 namespace GILA_APP_NAMESPACE {
 
-void CADRender::setup() {
+void GilaRender::setup() {
 
   // GLFW
   createWindow();
@@ -45,9 +45,9 @@ void CADRender::setup() {
   createSyncObjects();
 }
 
-void CADRender::setBGColor(glm::vec4 color) { bgColor = color; }
+void GilaRender::setBGColor(glm::vec4 color) { bgColor = color; }
 
-void CADRender::createWindow() {
+void GilaRender::createWindow() {
   glfwInit();
 
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -60,7 +60,7 @@ void CADRender::createWindow() {
   glfwSetInputMode(mMainWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
-vk::Result CADRender::createInstance() {
+vk::Result GilaRender::createInstance() {
 
   vkGetInstanceProcAddr =
       dl.getProcAddress<PFN_vkGetInstanceProcAddr>("vkGetInstanceProcAddr");
@@ -92,7 +92,7 @@ vk::Result CADRender::createInstance() {
   return result;
 }
 
-void CADRender::createSurface() {
+void GilaRender::createSurface() {
 
   if (glfwCreateWindowSurface(mInstance, mMainWindow, nullptr,
                               reinterpret_cast<VkSurfaceKHR *>(&mSurface)) !=
@@ -101,7 +101,7 @@ void CADRender::createSurface() {
   }
 }
 
-void CADRender::pickPhysicalDevice() {
+void GilaRender::pickPhysicalDevice() {
 
   std::vector<vk::PhysicalDevice> devices =
       mInstance.enumeratePhysicalDevices();
@@ -124,7 +124,7 @@ void CADRender::pickPhysicalDevice() {
 }
 
 SwapChainSupportDetails
-CADRender::querySwapChainSupport(const vk::PhysicalDevice &device) {
+GilaRender::querySwapChainSupport(const vk::PhysicalDevice &device) {
 
   SwapChainSupportDetails details;
 
@@ -135,7 +135,7 @@ CADRender::querySwapChainSupport(const vk::PhysicalDevice &device) {
   return details;
 }
 
-QueueFamilyIndices CADRender::findQueueFamilies(vk::PhysicalDevice device,
+QueueFamilyIndices GilaRender::findQueueFamilies(vk::PhysicalDevice device,
                                                 VkSurfaceKHR surface) {
   QueueFamilyIndices indices;
 
@@ -166,7 +166,7 @@ QueueFamilyIndices CADRender::findQueueFamilies(vk::PhysicalDevice device,
   return indices;
 }
 
-bool CADRender::isDeviceSuitable(vk::PhysicalDevice device) {
+bool GilaRender::isDeviceSuitable(vk::PhysicalDevice device) {
 
   mIndices = findQueueFamilies(device, mSurface);
 
@@ -182,7 +182,7 @@ bool CADRender::isDeviceSuitable(vk::PhysicalDevice device) {
   return mIndices.isComplete() && extensionsSupported && swapChainAdequate;
 }
 
-bool CADRender::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
+bool GilaRender::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
   std::vector<vk::ExtensionProperties> availableExtensions =
       device.enumerateDeviceExtensionProperties(nullptr);
 
@@ -196,7 +196,7 @@ bool CADRender::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
   return requiredExtensions.empty();
 }
 
-void CADRender::createLogicalDevice() {
+void GilaRender::createLogicalDevice() {
 
   std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
   std::set<int> uniqueQueueFamilies = {mIndices.graphicsFamily,
@@ -241,7 +241,7 @@ void CADRender::createLogicalDevice() {
       dl.getProcAddress<PFN_vkGetDeviceProcAddr>("vkGetDeviceProcAddr");
 }
 
-vk::SurfaceFormatKHR CADRender::chooseSwapSurfaceFormat(
+vk::SurfaceFormatKHR GilaRender::chooseSwapSurfaceFormat(
     const std::vector<vk::SurfaceFormatKHR> &availableFormats) {
 
   if (availableFormats.size() == 1 &&
@@ -261,7 +261,7 @@ vk::SurfaceFormatKHR CADRender::chooseSwapSurfaceFormat(
   return availableFormats[0];
 }
 
-vk::PresentModeKHR CADRender::chooseSwapPresentMode(
+vk::PresentModeKHR GilaRender::chooseSwapPresentMode(
     const std::vector<vk::PresentModeKHR> availablePresentModes) {
   vk::PresentModeKHR bestMode = vk::PresentModeKHR::eFifo;
 
@@ -277,7 +277,7 @@ vk::PresentModeKHR CADRender::chooseSwapPresentMode(
 }
 
 vk::Extent2D
-CADRender::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) {
+GilaRender::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) {
   if (capabilities.currentExtent.width !=
       std::numeric_limits<uint32_t>::max()) {
     return capabilities.currentExtent;
@@ -300,7 +300,7 @@ CADRender::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) {
   }
 }
 
-void CADRender::createSwapChain() {
+void GilaRender::createSwapChain() {
   SwapChainSupportDetails swapChainSupport =
       querySwapChainSupport(mPhysicalDevice);
 
@@ -348,7 +348,7 @@ void CADRender::createSwapChain() {
   mExtent = extent;
 }
 
-void CADRender::recreateSwapchain() {
+void GilaRender::recreateSwapchain() {
 
   int width = 0, height = 0;
   while (width == 0 || height == 0) {
@@ -372,7 +372,7 @@ void CADRender::recreateSwapchain() {
   preparePipelines();
 }
 
-void CADRender::createImageViews() {
+void GilaRender::createImageViews() {
   mImageViews.resize(mImages.size());
 
   for (decltype(mImages.size()) i = 0; i < mImages.size(); i++) {
@@ -381,7 +381,7 @@ void CADRender::createImageViews() {
   }
 }
 
-vk::ImageView CADRender::createImageView(vk::Image image, vk::Format format,
+vk::ImageView GilaRender::createImageView(vk::Image image, vk::Format format,
                                          vk::ImageAspectFlags aspectFlags) {
   vk::ImageViewCreateInfo createInfo = {};
   createInfo.image = image;
@@ -406,7 +406,7 @@ vk::ImageView CADRender::createImageView(vk::Image image, vk::Format format,
 }
 
 vk::Format
-CADRender::findSupportedFormat(vk::PhysicalDevice const &PhysicalDevice,
+GilaRender::findSupportedFormat(vk::PhysicalDevice const &PhysicalDevice,
                                const std::vector<vk::Format> &candidates,
                                vk::ImageTiling tiling,
                                vk::FormatFeatureFlags features) {
@@ -428,7 +428,7 @@ CADRender::findSupportedFormat(vk::PhysicalDevice const &PhysicalDevice,
 }
 
 vk::Format
-CADRender::findDepthFormat(vk::PhysicalDevice const &PhysicalDevice) {
+GilaRender::findDepthFormat(vk::PhysicalDevice const &PhysicalDevice) {
 
   return findSupportedFormat(
       PhysicalDevice,
@@ -438,7 +438,7 @@ CADRender::findDepthFormat(vk::PhysicalDevice const &PhysicalDevice) {
       vk::FormatFeatureFlagBits::eDepthStencilAttachment);
 }
 
-void CADRender::createRenderPass() {
+void GilaRender::createRenderPass() {
 
   // Color Attachment
   vk::AttachmentDescription colorAttachment = {};
@@ -502,7 +502,7 @@ void CADRender::createRenderPass() {
     throw std::runtime_error("failed to create render pass!");
 }
 
-void CADRender::createDescriptorSetLayout() {
+void GilaRender::createDescriptorSetLayout() {
 
   vk::DescriptorSetLayoutBinding uboLayoutBinding(
       0, vk::DescriptorType::eUniformBuffer, 1,
@@ -520,7 +520,7 @@ void CADRender::createDescriptorSetLayout() {
     throw std::runtime_error("failed to create descriptor set layout!");
 }
 
-void CADRender::createPipelineLayout() {
+void GilaRender::createPipelineLayout() {
 
   vk::PipelineLayoutCreateInfo pipelineLayoutInfo({}, 1, &mDescriptorSetLayout,
                                                   0, nullptr);
@@ -530,7 +530,7 @@ void CADRender::createPipelineLayout() {
     throw std::runtime_error("failed to create pipeline layout");
 }
 
-std::vector<char> CADRender::readFile(const std::string filename) {
+std::vector<char> GilaRender::readFile(const std::string filename) {
 
   std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -549,7 +549,7 @@ std::vector<char> CADRender::readFile(const std::string filename) {
   return buffer;
 }
 
-vk::ShaderModule CADRender::createShaderModule(const std::vector<char> &code) {
+vk::ShaderModule GilaRender::createShaderModule(const std::vector<char> &code) {
   vk::ShaderModuleCreateInfo createInfo = {};
 
   createInfo.codeSize = code.size();
@@ -565,7 +565,7 @@ vk::ShaderModule CADRender::createShaderModule(const std::vector<char> &code) {
   return shaderModule;
 }
 
-void CADRender::createCommandPool() {
+void GilaRender::createCommandPool() {
 
   vk::CommandPoolCreateInfo commandPoolInfo(
       vk::CommandPoolCreateFlagBits::eTransient, mIndices.graphicsFamily);
@@ -573,7 +573,7 @@ void CADRender::createCommandPool() {
   vk::Result result = mDevice.createCommandPool(&commandPoolInfo, nullptr, &mCommandPool);
 }
 
-uint32_t CADRender::findMemoryType(uint32_t typeFilter,
+uint32_t GilaRender::findMemoryType(uint32_t typeFilter,
                                    vk::MemoryPropertyFlags properties) {
 
   vk::PhysicalDeviceMemoryProperties memProperties;
@@ -589,7 +589,7 @@ uint32_t CADRender::findMemoryType(uint32_t typeFilter,
   throw std::runtime_error("failed to find suitable memory type!");
 }
 
-void CADRender::createImage(vk::PhysicalDevice const &PhysicalDevice,
+void GilaRender::createImage(vk::PhysicalDevice const &PhysicalDevice,
                             vk::Device const &Device, uint32_t width,
                             uint32_t height, vk::Format format,
                             vk::ImageTiling tiling, vk::ImageUsageFlags usage,
@@ -613,7 +613,7 @@ void CADRender::createImage(vk::PhysicalDevice const &PhysicalDevice,
   Device.bindImageMemory(image, imageMemory, 0);
 }
 
-void CADRender::createDepthResources() {
+void GilaRender::createDepthResources() {
   vk::Format depthFormat = findDepthFormat(mPhysicalDevice);
 
   createImage(mPhysicalDevice, mDevice, mExtent.width, mExtent.height,
@@ -626,7 +626,7 @@ void CADRender::createDepthResources() {
       createImageView(depthImage, depthFormat, vk::ImageAspectFlagBits::eDepth);
 }
 
-void CADRender::createBuffer(vk::DeviceSize &size,
+void GilaRender::createBuffer(vk::DeviceSize &size,
                              const vk::BufferUsageFlags &usage,
                              const vk::MemoryPropertyFlags &properties,
                              vk::Buffer &buffer,
@@ -647,7 +647,7 @@ void CADRender::createBuffer(vk::DeviceSize &size,
   mDevice.bindBufferMemory(buffer, bufferMemory, 0);
 }
 
-vk::CommandBuffer CADRender::beginSingleTimeCommands(
+vk::CommandBuffer GilaRender::beginSingleTimeCommands(
     const vk::CommandBufferLevel &level,
     const vk::CommandBufferInheritanceInfo &inheritance) {
 
@@ -674,7 +674,7 @@ vk::CommandBuffer CADRender::beginSingleTimeCommands(
   return commandBuffers[0];
 }
 
-void CADRender::endSingleTimeCommands(vk::CommandBuffer &commandBuffer) {
+void GilaRender::endSingleTimeCommands(vk::CommandBuffer &commandBuffer) {
 
   commandBuffer.end();
 
@@ -685,7 +685,7 @@ void CADRender::endSingleTimeCommands(vk::CommandBuffer &commandBuffer) {
   mDevice.freeCommandBuffers(mCommandPool, commandBuffer);
 }
 
-void CADRender::transitionImageLayout(vk::Image &image, vk::Format format,
+void GilaRender::transitionImageLayout(vk::Image &image, vk::Format format,
                                       vk::ImageLayout oldLayout,
                                       vk::ImageLayout newLayout) {
 
@@ -725,7 +725,7 @@ void CADRender::transitionImageLayout(vk::Image &image, vk::Format format,
   endSingleTimeCommands(commandBuffer);
 }
 
-void CADRender::copyBufferToImage(vk::Buffer &buffer, vk::Image &image,
+void GilaRender::copyBufferToImage(vk::Buffer &buffer, vk::Image &image,
                                   uint32_t width, uint32_t height) {
 
   vk::CommandBuffer commandBuffer = beginSingleTimeCommands(
@@ -741,7 +741,7 @@ void CADRender::copyBufferToImage(vk::Buffer &buffer, vk::Image &image,
   endSingleTimeCommands(commandBuffer);
 }
 
-void CADRender::createFramebuffers() {
+void GilaRender::createFramebuffers() {
 
   mFramebuffers.resize(mImageViews.size());
 
@@ -757,7 +757,7 @@ void CADRender::createFramebuffers() {
   }
 }
 
-void CADRender::createUniformBuffer() {
+void GilaRender::createUniformBuffer() {
 
   vk::DeviceSize bufferSize = sizeof(ubo);
 
@@ -772,7 +772,7 @@ void CADRender::createUniformBuffer() {
   }
 }
 
-void CADRender::createDescriptorPool() {
+void GilaRender::createDescriptorPool() {
 
   std::array<vk::DescriptorPoolSize, 1> poolSizes = {};
   poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
@@ -785,7 +785,7 @@ void CADRender::createDescriptorPool() {
   mDescriptorPool = mDevice.createDescriptorPool(poolInfo, nullptr);
 }
 
-void CADRender::createDescriptorSets() {
+void GilaRender::createDescriptorSets() {
 
   std::vector<vk::DescriptorSetLayout> layouts(mImages.size(),
                                                mDescriptorSetLayout);
@@ -819,7 +819,7 @@ void CADRender::createDescriptorSets() {
   }
 }
 
-void CADRender::allocCommandBuffers() {
+void GilaRender::allocCommandBuffers() {
 
   mCommandBuffers.resize(mFramebuffers.size());
 
@@ -830,7 +830,7 @@ void CADRender::allocCommandBuffers() {
   mCommandBuffers = mDevice.allocateCommandBuffers(allocInfo);
 }
 
-void CADRender::createSyncObjects() {
+void GilaRender::createSyncObjects() {
 
   mImageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
   mRenderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
@@ -847,7 +847,7 @@ void CADRender::createSyncObjects() {
   }
 }
 
-void CADRender::initImgui() {
+void GilaRender::initImgui() {
 
   // Create Descriptor Pool
 
@@ -919,7 +919,7 @@ void CADRender::initImgui() {
   }
 }
 
-void CADRender::createSketchPointPipeline() {
+void GilaRender::createSketchPointPipeline() {
 
   vk::VertexInputBindingDescription BindingDescription(
       0, sizeof(Vertex), vk::VertexInputRate::eVertex);
@@ -1020,13 +1020,13 @@ void CADRender::createSketchPointPipeline() {
   mDevice.destroyShaderModule(fragShaderModule, nullptr);
 }
 
-vk::Pipeline CADRender::getSketchPointPipeline() {
+vk::Pipeline GilaRender::getSketchPointPipeline() {
   return Pipelines.SketchPoint;
 }
 
-void CADRender::preparePipelines() { createSketchPointPipeline(); }
+void GilaRender::preparePipelines() { createSketchPointPipeline(); }
 
-void CADRender::copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer,
+void GilaRender::copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer,
                            vk::DeviceSize size) {
 
   vk::CommandBuffer commandBuffer = beginSingleTimeCommands(
@@ -1040,7 +1040,7 @@ void CADRender::copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer,
   endSingleTimeCommands(commandBuffer);
 }
 
-void CADRender::deleteBuffer(uint32_t id) {
+void GilaRender::deleteBuffer(uint32_t id) {
 
   // mBuffers[id].isEmpty = true;
 
@@ -1053,7 +1053,7 @@ void CADRender::deleteBuffer(uint32_t id) {
   }
 }
 
-void CADRender::createCommandBuffers() {
+void GilaRender::createCommandBuffers() {
 
   mDevice.resetCommandPool(mCommandPool, vk::CommandPoolResetFlags());
 
@@ -1105,7 +1105,7 @@ void CADRender::createCommandBuffers() {
   }
 }
 
-void CADRender::updateUniformBuffer(uint32_t currentImage) {
+void GilaRender::updateUniformBuffer(uint32_t currentImage) {
 
   glm::vec3 up = glm::vec3(0.0f, 0.0f, 1.0f);
   u.model = glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), up);
@@ -1128,7 +1128,7 @@ void CADRender::updateUniformBuffer(uint32_t currentImage) {
   mDevice.unmapMemory(mUniformBufferMemories[currentImage]);
 }
 
-void CADRender::drawFrame() {
+void GilaRender::drawFrame() {
 
   vk::Result result1 = mDevice.waitForFences(mInFlightFences[mCurrentFrame], VK_TRUE, UINT64_MAX);
 
@@ -1183,7 +1183,7 @@ void CADRender::drawFrame() {
   mCurrentFrame = (mCurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
-void CADRender::destroyPipelines() {
+void GilaRender::destroyPipelines() {
 
   mDevice.destroyPipeline(Pipelines.SketchPoint);
   mDevice.destroyPipeline(Pipelines.SketchLine);
@@ -1191,7 +1191,7 @@ void CADRender::destroyPipelines() {
   mDevice.destroyPipeline(mTextPipeline);
 }
 
-void CADRender::cleanupSwapchain() {
+void GilaRender::cleanupSwapchain() {
 
   for (auto &mFramebuffer : mFramebuffers)
     mDevice.destroyFramebuffer(mFramebuffer, nullptr);
@@ -1214,7 +1214,7 @@ void CADRender::cleanupSwapchain() {
   mDevice.destroySwapchainKHR(mSwapchain, nullptr);
 }
 
-void CADRender::cleanup() {
+void GilaRender::cleanup() {
 
   for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
     mDevice.destroySemaphore(mImageAvailableSemaphores[i]);
@@ -1273,7 +1273,7 @@ void CADRender::cleanup() {
   glfwTerminate();
 }
 
-void CADRender::destroy() {
+void GilaRender::destroy() {
 
   ImGui_ImplVulkan_Shutdown();
   ImGui_ImplGlfw_Shutdown();
@@ -1282,7 +1282,7 @@ void CADRender::destroy() {
   cleanup();
 }
 
-void CADRender::onNotify(int id, const RenderData& Renderables) {
+void GilaRender::onNotify(int id, const RenderData& Renderables) {
 
   std::cout << "Render notified!" << std::endl;
   std::cout << Renderables << std::endl;
